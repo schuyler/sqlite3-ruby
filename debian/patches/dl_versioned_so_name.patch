@@ -1,0 +1,14 @@
+Use versioned so name libsqlite3.so.0 instead of libsqlite3.so which is only
+provided by lisqlite3-dev (#457296)
+
+--- sqlite3-ruby-1.2.2~/lib/sqlite3/driver/dl/api.rb	2008-05-03 07:45:39.000000000 +0300
++++ sqlite3-ruby-1.2.2/lib/sqlite3/driver/dl/api.rb	2008-06-25 14:34:18.000000000 +0300
+@@ -9,7 +9,7 @@
+       when /darwin/
+         "libsqlite3.dylib"
+       when /linux/, /freebsd|netbsd|openbsd|dragonfly/, /solaris/
+-        "libsqlite3.so"
++        "libsqlite3.so.0"
+       when /win32/
+         "sqlite3.dll"
+       else
