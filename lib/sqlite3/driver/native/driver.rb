@@ -98,6 +98,17 @@ module SQLite3 ; module Driver ; module Native
         stmt, index )
     end
 
+    def enable_load_extension( db, onoff )
+      return API.sqlite3_enable_load_extension( db, onoff )
+    end
+
+    def load_extension( db, name, entrypoint, errmsg )
+      puts ""
+      result = API.sqlite3_load_extension( db, name, entrypoint, errmsg )
+      errmsg.strip!
+      return result
+    end
+
     def create_function( db, name, args, text, cookie, func, step, final )
       if func || ( step && final )
         cb = API::CallbackData.new

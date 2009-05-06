@@ -2247,6 +2247,57 @@ _wrap_sqlite3_reset(int argc, VALUE *argv, VALUE self) {
 
 
 static VALUE
+_wrap_sqlite3_enable_load_extension(int argc, VALUE *argv, VALUE self) {
+    sqlite3 *arg1 = (sqlite3 *) 0 ;
+    int arg2;
+    int result;
+    VALUE vresult = Qnil;
+    if ((argc < 2) || (argc > 2))
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc);
+	SWIG_ConvertPtr(argv[0], (void **) &arg1, SWIGTYPE_p_sqlite3, 0);
+    arg2 = NUM2INT(argv[1]);
+    result = (int)sqlite3_enable_load_extension(arg1,arg2);
+
+    vresult = INT2NUM(result);
+    return vresult;
+}
+
+
+static VALUE
+_wrap_sqlite3_load_extension(int argc, VALUE *argv, VALUE self) {
+    sqlite3 *arg1 = (sqlite3 *) 0 ;
+    char *arg2 = (char *) 0 ;
+    char *arg3 = (char *) 0 ;
+    char **arg4 = (char **) 0 ;
+    int result;
+    char *errmsg = (char *)0;
+    VALUE vresult = Qnil;
+    
+    if ((argc < 4) || (argc > 4))
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc);
+    SWIG_ConvertPtr(argv[0], (void **) &arg1, SWIGTYPE_p_sqlite3, 0);
+    {
+        arg2 = RSTRING(argv[1])->ptr;
+		if ( ! NIL_P(argv[2]) ) {
+        	arg3 = RSTRING(argv[2])->ptr;
+		}
+        arg4 = &errmsg;
+    }
+    result = (int)sqlite3_load_extension(arg1,(char const *)arg2,(char const *)arg3,(char const **)arg4);
+    
+    vresult = INT2NUM(result);
+    {
+        VALUE ary;
+        ary = rb_ary_new2(2);
+        rb_ary_push( ary, vresult );
+        rb_ary_push( ary, errmsg ? rb_str_new2( errmsg ) : Qnil );
+        vresult = ary;
+    }
+    return vresult;
+}
+
+
+static VALUE
 _wrap_sqlite3_create_function(int argc, VALUE *argv, VALUE self) {
     sqlite3 *arg1 = (sqlite3 *) 0 ;
     char *arg2 = (char *) 0 ;
@@ -3072,6 +3123,8 @@ SWIGEXPORT void Init_API(void) {
     rb_define_module_function(mAPI, "sqlite3_column_type", _wrap_sqlite3_column_type, -1);
     rb_define_module_function(mAPI, "sqlite3_finalize", _wrap_sqlite3_finalize, -1);
     rb_define_module_function(mAPI, "sqlite3_reset", _wrap_sqlite3_reset, -1);
+    rb_define_module_function(mAPI, "sqlite3_enable_load_extension", _wrap_sqlite3_enable_load_extension, -1);
+    rb_define_module_function(mAPI, "sqlite3_load_extension", _wrap_sqlite3_load_extension, -1);
     rb_define_module_function(mAPI, "sqlite3_create_function", _wrap_sqlite3_create_function, -1);
     rb_define_module_function(mAPI, "sqlite3_create_function16", _wrap_sqlite3_create_function16, -1);
     rb_define_module_function(mAPI, "sqlite3_aggregate_count", _wrap_sqlite3_aggregate_count, -1);

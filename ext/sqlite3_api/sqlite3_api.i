@@ -325,6 +325,9 @@ int sqlite3_column_type(sqlite3_stmt*,int);
 int sqlite3_finalize(sqlite3_stmt*);
 int sqlite3_reset(sqlite3_stmt*);
 
+int sqlite3_enable_load_extension(sqlite3*,int);
+int sqlite3_load_extension(sqlite3*,const char*name,char*entrypoint,char**errmsg);
+
 int sqlite3_create_function(sqlite3*,const char*str,int,int,void*,void(*func)(sqlite3_context*,int,sqlite3_value**),void(*step)(sqlite3_context*,int,sqlite3_value**),void(*final)(sqlite3_context*));
 
 int sqlite3_create_function16(sqlite3*,const void*str,int,int,void*,void(*func)(sqlite3_context*,int,sqlite3_value**),void(*step)(sqlite3_context*,int,sqlite3_value**),void(*final)(sqlite3_context*));

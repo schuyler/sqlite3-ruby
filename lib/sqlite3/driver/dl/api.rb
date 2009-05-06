@@ -96,6 +96,8 @@ submitting a patch to jamis_buck@byu.edu. Thanks!
     extern "const void *sqlite3_column_text16(stmt,int)"
     extern "int sqlite3_column_type(stmt,int)"
 
+    extern "int sqlite3_enable_load_extension(db,int)"
+    extern "int sqlite3_load_extension(db,const char*,const char*,const char**)"
     extern "int sqlite3_create_function(db,const char*,int,int,void*,void*,void*,void*)"
     extern "int sqlite3_create_function16(db,const void*,int,int,void*,void*,void*,void*)"
     extern "int sqlite3_aggregate_count(context)"

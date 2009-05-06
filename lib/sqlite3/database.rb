@@ -366,6 +366,19 @@ module SQLite3
       self
     end
 
+    def enable_load_extension( onoff )
+      result = @driver.enable_load_extension( @handle, onoff )
+      Error.check( result, self )
+      result
+    end
+
+    def load_extension( name, entrypoint=nil )
+      buff = " " * 256
+      results = @driver.load_extension( @handle, name, entrypoint, buff )
+      raise SQLite3::Exception, results[1] if results[0] != 0
+      self
+    end
+
     # Creates a new aggregate function for use in SQL statements. Aggregate
     # functions are functions that apply over every row in the result set,
     # instead of over just a single row. (A very common aggregate function

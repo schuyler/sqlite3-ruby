@@ -149,6 +149,16 @@ module SQLite3 ; module Driver ; module DL
       API.sqlite3_trace( db, block&&@trace_handler_callback, data )
     end
 
+    def enable_load_extension( db, onoff )
+      return API.sqlite3_enable_load_extension( db, onoff )
+    end
+
+    def load_extension( db, name, entrypoint, errmsg )
+      result = API.sqlite3_load_extension( db, name, entrypoint, errmsg )
+      errmsg.strip!
+      return result
+    end
+
     def create_function( db, name, args, text, cookie,
       func, step, final )
     # begin
