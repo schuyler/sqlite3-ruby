@@ -3,56 +3,66 @@ SHELL = /bin/sh
 
 #### Start of system configuration section. ####
 
-srcdir = .
-topdir = /opt/local/lib/ruby/1.8/i686-darwin9.2.2
+srcdir = /home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api
+topdir = /usr/lib/ruby/1.8/i486-linux
 hdrdir = $(topdir)
 VPATH = $(srcdir):$(topdir):$(hdrdir)
-prefix = $(DESTDIR)/opt/local
 exec_prefix = $(prefix)
-sitedir = $(prefix)/lib/ruby/site_ruby
-rubylibdir = $(libdir)/ruby/$(ruby_version)
-archdir = $(rubylibdir)/$(arch)
-sbindir = $(exec_prefix)/sbin
-vendordir = $(prefix)/lib/ruby/vendor_ruby
-datadir = $(prefix)/share
-includedir = $(prefix)/include
-infodir = $(prefix)/info
-sysconfdir = $(prefix)/etc
-mandir = $(DESTDIR)/opt/local/share/man
-libdir = $(exec_prefix)/lib
+prefix = $(DESTDIR)/usr
 sharedstatedir = $(prefix)/com
+mandir = $(prefix)/share/man
+psdir = $(docdir)
 oldincludedir = $(DESTDIR)/usr/include
-sitearchdir = $(sitelibdir)/$(sitearch)
-vendorarchdir = $(vendorlibdir)/$(vendorarch)
+localedir = $(datarootdir)/locale
 bindir = $(exec_prefix)/bin
-localstatedir = $(prefix)/var
+libexecdir = $(prefix)/lib/ruby1.8
+sitedir = $(DESTDIR)/usr/local/lib/site_ruby
+htmldir = $(docdir)
+vendorarchdir = $(vendorlibdir)/$(sitearch)
+includedir = $(prefix)/include
+infodir = $(prefix)/share/info
 vendorlibdir = $(vendordir)/$(ruby_version)
+sysconfdir = $(DESTDIR)/etc
+libdir = $(exec_prefix)/lib
+sbindir = $(exec_prefix)/sbin
+rubylibdir = $(libdir)/ruby/$(ruby_version)
+docdir = $(datarootdir)/doc/$(PACKAGE)
+dvidir = $(docdir)
+vendordir = $(libdir)/ruby/vendor_ruby
+datarootdir = $(prefix)/share
+pdfdir = $(docdir)
+archdir = $(rubylibdir)/$(arch)
+sitearchdir = $(sitelibdir)/$(sitearch)
+datadir = $(datarootdir)
+localstatedir = $(DESTDIR)/var
 sitelibdir = $(sitedir)/$(ruby_version)
-libexecdir = $(exec_prefix)/libexec
 
-CC = gcc
+CC = cc
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
 LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
 LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
 
 RUBY_EXTCONF_H = 
-CFLAGS   =  -fno-common -O2  -fno-common -pipe -fno-common 
-INCFLAGS = -I. -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I.
-CPPFLAGS = -DHAVE_SQLITE3_H -I/usr/local/include -I/opt/local/include
+CFLAGS   =  -fPIC -fno-strict-aliasing -g -g -O2  -fPIC $(cflags) 
+INCFLAGS = -I. -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api
+DEFS     = -D_FILE_OFFSET_BITS=64
+CPPFLAGS = -DHAVE_SQLITE3_H -I/usr/local/include  -D_FILE_OFFSET_BITS=64 
 CXXFLAGS = $(CFLAGS) 
-DLDFLAGS = -L. -L/opt/local/lib  
-LDSHARED = cc -dynamic -bundle -undefined suppress -flat_namespace
+ldflags  = -L. -Wl,-Bsymbolic-functions -rdynamic -Wl,-export-dynamic
+dldflags = 
+archflag = 
+DLDFLAGS = $(ldflags) $(dldflags) $(archflag)
+LDSHARED = $(CC) -shared
 AR = ar
 EXEEXT = 
 
-RUBY_INSTALL_NAME = ruby
-RUBY_SO_NAME = ruby
-arch = i686-darwin9.2.2
-sitearch = i686-darwin9.2.2
-vendorarch = i686-darwin9.2.2
+RUBY_INSTALL_NAME = ruby1.8
+RUBY_SO_NAME = ruby1.8
+arch = i486-linux
+sitearch = i486-linux
 ruby_version = 1.8
-ruby = /opt/local/bin/ruby
+ruby = /usr/bin/ruby1.8
 RUBY = $(ruby)
 RM = rm -f
 MAKEDIRS = mkdir -p
@@ -66,7 +76,7 @@ COPY = cp
 preload = 
 
 libpath = . $(libdir) /usr/local/lib
-LIBPATH =  -L"." -L"$(libdir)" -L"/usr/local/lib"
+LIBPATH =  -L. -L$(libdir) -L/usr/local/lib
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -76,20 +86,21 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED) -lsqlite3  -lpthread -ldl -lobjc  
+LIBS = $(LIBRUBYARG_SHARED) -lsqlite3 -lrt  -lpthread -ldl -lcrypt -lm   -lc
 SRCS = sqlite3_api_wrap.c
 OBJS = sqlite3_api_wrap.o
 TARGET = sqlite3_api
-DLLIB = $(TARGET).bundle
+DLLIB = $(TARGET).so
 EXTSTATIC = 
 STATIC_LIB = 
 
+BINDIR        = $(bindir)
 RUBYCOMMONDIR = $(sitedir)$(target_prefix)
 RUBYLIBDIR    = $(sitelibdir)$(target_prefix)
 RUBYARCHDIR   = $(sitearchdir)$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).bundle $(TARGET).il? $(TARGET).tds $(TARGET).map
+CLEANLIBS     = $(TARGET).so $(TARGET).il? $(TARGET).tds $(TARGET).map
 CLEANOBJS     = *.o *.a *.s[ol] *.pdb *.exp *.bak
 
 all:		$(DLLIB)

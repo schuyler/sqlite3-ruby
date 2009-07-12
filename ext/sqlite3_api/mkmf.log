@@ -1,6 +1,6 @@
-have_library: checking for fdatasync() in -lrt... -------------------- no
+have_library: checking for fdatasync() in -lrt... -------------------- yes
 
-"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L"/usr/local/lib" -L. -L/opt/local/lib     -lruby-static -lrt  -lpthread -ldl -lobjc  "
+"cc -o conftest -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api -I/usr/local/include  -D_FILE_OFFSET_BITS=64  -fno-strict-aliasing -g -g -O2  -fPIC   conftest.c  -L. -L/usr/lib -L/usr/local/lib -L. -Wl,-Bsymbolic-functions -rdynamic -Wl,-export-dynamic     -lruby1.8-static -lrt  -lpthread -ldl -lcrypt -lm   -lc"
 conftest.c: In function ‘t’:
 conftest.c:3: error: ‘fdatasync’ undeclared (first use in this function)
 conftest.c:3: error: (Each undeclared identifier is reported only once
@@ -12,9 +12,7 @@ checked program was:
 3: int t() { void ((*volatile p)()); p = (void ((*)()))fdatasync; return 0; }
 /* end */
 
-"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L"/usr/local/lib" -L. -L/opt/local/lib     -lruby-static -lrt  -lpthread -ldl -lobjc  "
-ld: library not found for -lrt
-collect2: ld returned 1 exit status
+"cc -o conftest -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api -I/usr/local/include  -D_FILE_OFFSET_BITS=64  -fno-strict-aliasing -g -g -O2  -fPIC   conftest.c  -L. -L/usr/lib -L/usr/local/lib -L. -Wl,-Bsymbolic-functions -rdynamic -Wl,-export-dynamic     -lruby1.8-static -lrt  -lpthread -ldl -lcrypt -lm   -lc"
 checked program was:
 /* begin */
 1: /*top*/
@@ -22,22 +20,11 @@ checked program was:
 3: int t() { fdatasync(); return 0; }
 /* end */
 
-"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L"/usr/local/lib" -L. -L/opt/local/lib     -lruby-static -lrt  -lpthread -ldl -lobjc  "
-ld: library not found for -lrt
-collect2: ld returned 1 exit status
-checked program was:
-/* begin */
-1: int fdatasync();
-2: /*top*/
-3: int main() { return 0; }
-4: int t() { fdatasync(); return 0; }
-/* end */
-
 --------------------
 
 have_header: checking for sqlite3.h... -------------------- yes
 
-"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+"cc -E -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api -I/usr/local/include  -D_FILE_OFFSET_BITS=64  -fno-strict-aliasing -g -g -O2  -fPIC    conftest.c -o conftest.i"
 checked program was:
 /* begin */
 1: #include <sqlite3.h>
@@ -47,7 +34,7 @@ checked program was:
 
 have_library: checking for sqlite3_open() in -lsqlite3... -------------------- yes
 
-"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L"/usr/local/lib" -L. -L/opt/local/lib     -lruby-static -lsqlite3  -lpthread -ldl -lobjc  "
+"cc -o conftest -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api -I/usr/local/include  -D_FILE_OFFSET_BITS=64  -fno-strict-aliasing -g -g -O2  -fPIC   conftest.c  -L. -L/usr/lib -L/usr/local/lib -L. -Wl,-Bsymbolic-functions -rdynamic -Wl,-export-dynamic    -lrt  -lruby1.8-static -lsqlite3 -lrt  -lpthread -ldl -lcrypt -lm   -lc"
 conftest.c: In function ‘t’:
 conftest.c:3: error: ‘sqlite3_open’ undeclared (first use in this function)
 conftest.c:3: error: (Each undeclared identifier is reported only once
@@ -59,7 +46,7 @@ checked program was:
 3: int t() { void ((*volatile p)()); p = (void ((*)()))sqlite3_open; return 0; }
 /* end */
 
-"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.2.2 -I. -I/usr/local/include -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L"/usr/local/lib" -L. -L/opt/local/lib     -lruby-static -lsqlite3  -lpthread -ldl -lobjc  "
+"cc -o conftest -I. -I/usr/lib/ruby/1.8/i486-linux -I/home/sderle/projects/geocoder/sqlite3-ruby/ext/sqlite3_api -I/usr/local/include  -D_FILE_OFFSET_BITS=64  -fno-strict-aliasing -g -g -O2  -fPIC   conftest.c  -L. -L/usr/lib -L/usr/local/lib -L. -Wl,-Bsymbolic-functions -rdynamic -Wl,-export-dynamic    -lrt  -lruby1.8-static -lsqlite3 -lrt  -lpthread -ldl -lcrypt -lm   -lc"
 checked program was:
 /* begin */
 1: /*top*/

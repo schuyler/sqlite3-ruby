@@ -3,7 +3,7 @@ require "./lib/sqlite3/version"
 Gem::Specification.new do |s|
 
    s.name = 'sqlite3-ruby'
-   s.version = SQLite3::Version::STRING
+   s.version = SQLite3::Version::STRING + ".1"
    s.platform = Gem::Platform::RUBY
    s.required_ruby_version = ">=1.8.0"
 
