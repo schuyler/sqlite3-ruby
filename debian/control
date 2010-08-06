@@ -3,7 +3,7 @@ Maintainer: Dmitry Borodaenko <angdraug@debian.org>
 Section: interpreters
 Priority: optional
 Homepage: http://rubyforge.org/projects/sqlite-ruby
-Build-Depends: debhelper (>= 4), quilt, libsqlite3-dev, swig, ruby1.8, ruby1.8-dev, ruby1.9, ruby1.9-dev
+Build-Depends: debhelper (>= 4), quilt, libsqlite3-dev, swig, ruby1.8, ruby1.8-dev, ruby1.9.1, ruby1.9.1-dev
 Standards-Version: 3.8.0
 
 Package: libsqlite3-ruby
