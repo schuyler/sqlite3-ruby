@@ -7,16 +7,16 @@ tmp	= debian/tmp
 bindir	= /usr/bin
 libdir18 = $(shell ruby1.8 -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
 archdir18 = $(shell ruby1.8 -r rbconfig -e 'print Config::CONFIG["archdir"]')
-libdir19 = $(shell ruby1.9 -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
-archdir19 = $(shell ruby1.9 -r rbconfig -e 'print Config::CONFIG["archdir"]')
+libdir19 = $(shell ruby1.9.1 -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
+archdir19 = $(shell ruby1.9.1 -r rbconfig -e 'print Config::CONFIG["archdir"]')
 
-build: build-ruby1.8-stamp build-ruby1.9-stamp
+build: build-ruby1.8-stamp build-ruby1.9.1-stamp
 
 build-ruby1.8-stamp: $(QUILT_STAMPFN)
 	dh_testdir
 
 	# clean
-	mv ext/sqlite3_api/sqlite3_api_wrap.c ext/sqlite3_api/sqlite3_api_wrap.c.dist
+	# mv ext/sqlite3_api/sqlite3_api_wrap.c ext/sqlite3_api/sqlite3_api_wrap.c.dist
 	ruby1.8 setup.rb clean
 
 	# configure
@@ -30,31 +30,31 @@ build-ruby1.8-stamp: $(QUILT_STAMPFN)
 
 	# install
 	ruby1.8 setup.rb install
-	mv ext/sqlite3_api/sqlite3_api_wrap.c.dist ext/sqlite3_api/sqlite3_api_wrap.c
+	#mv ext/sqlite3_api/sqlite3_api_wrap.c.dist ext/sqlite3_api/sqlite3_api_wrap.c
 
 	touch build-ruby1.8-stamp
 
-build-ruby1.9-stamp: $(QUILT_STAMPFN)
+build-ruby1.9.1-stamp: $(QUILT_STAMPFN)
 	dh_testdir
 
 	# clean
-	mv ext/sqlite3_api/sqlite3_api_wrap.c ext/sqlite3_api/sqlite3_api_wrap.c.dist
-	ruby1.9 setup.rb clean
+	#mv ext/sqlite3_api/sqlite3_api_wrap.c ext/sqlite3_api/sqlite3_api_wrap.c.dist
+	ruby1.9.1 setup.rb clean
 
 	# configure
-	ruby1.9 setup.rb config \
+	ruby1.9.1 setup.rb config \
 		--bin-dir=$(shell pwd)/$(tmp)$(bindir) \
 		--rb-dir=$(shell pwd)/$(tmp)$(libdir19) \
 		--so-dir=$(shell pwd)/$(tmp)$(archdir19)
 
 	# build
-	ruby1.9 setup.rb setup
+	ruby1.9.1 setup.rb setup
 
 	# install
-	ruby1.9 setup.rb install
-	mv ext/sqlite3_api/sqlite3_api_wrap.c.dist ext/sqlite3_api/sqlite3_api_wrap.c
+	ruby1.9.1 setup.rb install
+	#mv ext/sqlite3_api/sqlite3_api_wrap.c.dist ext/sqlite3_api/sqlite3_api_wrap.c
 
-	touch build-ruby1.9-stamp
+	touch build-ruby1.9.1-stamp
 
 install: build
 	dh_testdir
@@ -63,8 +63,8 @@ install: build
 	echo $(tmp)$(libdir18) >debian/libsqlite3-ruby1.8.install
 	echo $(tmp)$(archdir18) >>debian/libsqlite3-ruby1.8.install
 
-	echo $(tmp)$(libdir19) >debian/libsqlite3-ruby1.9.install
-	echo $(tmp)$(archdir19) >>debian/libsqlite3-ruby1.9.install
+	echo $(tmp)$(libdir19) >debian/libsqlite3-ruby1.9.1.install
+	echo $(tmp)$(archdir19) >>debian/libsqlite3-ruby1.9.1.install
 
 	dh_install
 
@@ -105,7 +105,7 @@ clean: unpatch
 	dh_testdir
 	dh_testroot
 	-ruby1.8 setup.rb clean
-	-ruby1.9 setup.rb clean
+	-ruby1.9.1 setup.rb clean
 	-rm -f config.save
 	-rm -f build-ruby1.[689]-stamp
 	-rm -f ext/sqlite3_api/{mkmf.log,Makefile}
