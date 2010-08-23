@@ -89,7 +89,7 @@ binary-arch: install
 	dh_testroot -a
 
 	dh_installchangelogs -a CHANGELOG.rdoc
-	dh_installdocs -a -A README.rdoc doc/faq
+	dh_installdocs -a -A README.rdoc faq
 	dh_link -a
 	dh_strip -a
 	dh_compress -a -X.rb -X.html
