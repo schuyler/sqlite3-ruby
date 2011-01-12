@@ -1,0 +1,14 @@
+api
+pkg
+doc/faq/faq.html
+*.so
+*.bundle
+*.swp
+test/test.db
+tmp
+vendor
+*.log
+*.o
+.config
+InstalledFiles
+Makefile

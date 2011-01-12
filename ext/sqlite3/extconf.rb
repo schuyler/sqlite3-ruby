@@ -6,13 +6,10 @@ require 'mkmf'
 
 RbConfig::MAKEFILE_CONFIG['CC'] = ENV['CC'] if ENV['CC']
 
-sqlite = dir_config('sqlite3', ['/usr/local', '/opt/local', '/usr'])
+sqlite = dir_config('sqlite3', ['/usr/local', '/opt/local', '/sw/local', '/usr'])
 
 if RUBY_PLATFORM =~ /mswin/
   $CFLAGS << ' -W3'
-else
-  $CFLAGS << ' -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion' <<
-             ' -Wmissing-noreturn -Winline'
 end
 
 def asplode missing
@@ -20,8 +17,11 @@ def asplode missing
     abort "#{missing} is missing. Install SQLite3 from " +
           "http://www.sqlite.org/ first."
   else
-    abort "#{missing} is missing. Try 'port install sqlite3 +universal' " +
-          "or 'yum install sqlite3-devel'"
+    abort <<-error
+#{missing} is missing. Try 'port install sqlite3 +universal'
+or 'yum install sqlite3-devel' and check your shared library search path (the
+location where your sqlite3 shared library is located).
+    error
   end
 end
 
@@ -31,7 +31,11 @@ asplode('sqlite3') unless find_library 'sqlite3', 'sqlite3_libversion_number'
 # Functions defined in 1.9 but not 1.8
 have_func('rb_proc_arity')
 
-unless have_func('sqlite3_initialize') && have_func('sqlite3_next_stmt')
+unless %w{
+  sqlite3_initialize
+  sqlite3_next_stmt
+  sqlite3_backup_init
+}.all? { |func| have_func func }
   abort "sqlite3-ruby only supports sqlite3 versions 3.6.16+, please upgrade!"
 end
 

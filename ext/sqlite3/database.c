@@ -11,14 +11,8 @@ static void deallocate(void * ctx)
 {
   sqlite3RubyPtr c = (sqlite3RubyPtr)ctx;
   sqlite3 * db     = c->db;
-  sqlite3_stmt * stmt;
 
-  if(db) {
-    while((stmt = sqlite3_next_stmt(db, NULL)) != NULL) {
-      sqlite3_finalize(stmt);
-    }
-    sqlite3_close(db);
-  }
+  if(db) sqlite3_close(db);
   xfree(c);
 }
 
@@ -50,6 +44,7 @@ static VALUE initialize(int argc, VALUE *argv, VALUE self)
   VALUE file;
   VALUE opts;
   VALUE zvfs;
+  int mode = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
   int status;
 
   Data_Get_Struct(self, sqlite3Ruby, ctx);
@@ -73,10 +68,13 @@ static VALUE initialize(int argc, VALUE *argv, VALUE self)
       }
 #endif
 
+      if (Qtrue == rb_hash_aref(opts, ID2SYM(rb_intern("readonly")))) {
+        mode = SQLITE_OPEN_READONLY;
+      }
       status = sqlite3_open_v2(
           StringValuePtr(file),
           &ctx->db,
-          SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
+          mode,
           NIL_P(zvfs) ? NULL : StringValuePtr(zvfs)
       );
     }
@@ -92,8 +90,10 @@ static VALUE initialize(int argc, VALUE *argv, VALUE self)
   rb_iv_set(self, "@encoding", Qnil);
   rb_iv_set(self, "@busy_handler", Qnil);
   rb_iv_set(self, "@collations", rb_hash_new());
+  rb_iv_set(self, "@functions", rb_hash_new());
   rb_iv_set(self, "@results_as_hash", rb_hash_aref(opts, sym_results_as_hash));
   rb_iv_set(self, "@type_translation", rb_hash_aref(opts, sym_type_translation));
+  rb_iv_set(self, "@readonly", mode == SQLITE_OPEN_READONLY ? Qtrue : Qfalse);
 
   if(rb_block_given_p()) {
     rb_yield(self);
@@ -357,6 +357,8 @@ static VALUE define_function(VALUE self, VALUE name)
   );
 
   CHECK(ctx->db, status);
+
+  rb_hash_aset(rb_iv_get(self, "@functions"), name, block);
 
   return self;
 }
