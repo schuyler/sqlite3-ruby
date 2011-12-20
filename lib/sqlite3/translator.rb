@@ -35,6 +35,10 @@ module SQLite3
     #
     # The block should return the translated value.
     def add_translator( type, &block ) # :yields: type, value
+      warn(<<-eowarn) if $VERBOSE
+#{caller[0]} is calling `add_translator`.
+Built in translators are deprecated and will be removed in version 2.0.0
+      eowarn
       @translators[ type_name( type ) ] = block
     end
 
@@ -44,7 +48,12 @@ module SQLite3
     # and are always passed straight through regardless of the type parameter.
     def translate( type, value )
       unless value.nil?
-        @translators[ type_name( type ) ].call( type, value )
+        # FIXME: this is a hack to support Sequel
+        if type && %w{ datetime timestamp }.include?(type.downcase)
+          @translators[ type_name( type ) ].call( type, value.to_s )
+        else
+          @translators[ type_name( type ) ].call( type, value )
+        end
       end
     end
 
